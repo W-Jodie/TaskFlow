@@ -1,0 +1,23 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}{{ title }}{% endblock %}
+
+{% block body %}
+<div class="container mt-4">
+
+    <h1 class="mb-4">{{ title }}</h1>
+
+    <div class="card p-4 shadow-sm">
+        {{ form_start(form) }}
+            {{ form_row(form.title) }}
+            {{ form_row(form.description) }}
+            {{ form_row(form.deadline) }}
+            {{ form_row(form.isDone) }}
+
+            <button class="btn btn-primary mt-3">Enregistrer</button>
+        {{ form_end(form) }}
+    </div>
+
+    <a href="{{ path('task_index') }}" class="btn btn-secondary mt-3">⬅ Retour</a>
+</div>
+{% endblock %}

@@ -1,0 +1,68 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<div class="container mt-5">
+
+    <h1 class="mb-4 text-primary">📋 Liste des tâches</h1>
+
+    <a href="{{ path('task_create') }}" class="btn btn-success mb-3">
+        + Ajouter une tâche
+    </a>
+
+    {# Messages flash #}
+    {% for message in app.flashes('success') %}
+        <div class="alert alert-success">{{ message }}</div>
+    {% endfor %}
+
+    <table class="table table-bordered table-striped shadow-sm">
+        <thead class="table-primary">
+            <tr>
+                <th>Titre</th>
+                <th>Date limite</th>
+                <th>État</th>
+                <th style="width: 230px;">Actions</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for task in tasks %}
+                <tr>
+                    <td>{{ task.title }}</td>
+
+                    {# ✔ Correction : deadline au lieu de dateLimite #}
+                    <td>
+                        {{ task.deadline ? task.deadline|date('d/m/Y') : '-' }}
+                    </td>
+
+                    <td>
+                        {% if task.isDone %}
+                            <span class="badge bg-success">Terminée</span>
+                        {% else %}
+                            <span class="badge bg-warning">En cours</span>
+                        {% endif %}
+                    </td>
+
+                    <td class="d-flex gap-2">
+                        <a href="{{ path('task_edit', { id: task.id }) }}"
+                           class="btn btn-sm btn-outline-primary">
+                           Modifier
+                        </a>
+
+                        <a href="{{ path('task_delete', { id: task.id }) }}"
+                           class="btn btn-sm btn-outline-danger"
+                           onclick="return confirm('Supprimer cette tâche ?')">
+                           Supprimer
+                        </a>
+
+                        <a href="{{ path('task_toggle', { id: task.id }) }}"
+                           class="btn btn-sm btn-outline-secondary">
+                           Changer état
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+</div>
+{% endblock %}
