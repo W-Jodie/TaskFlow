@@ -5,7 +5,7 @@
 
     <h1 class="mb-4 text-primary">📋 Liste des tâches</h1>
 
-    <a href="{{ path('task_create') }}" class="btn btn-success mb-3">
+    <a href="{{ path('task_create') }}" class="btn btn-outline-success mb-3">
         + Ajouter une tâche
     </a>
 
@@ -49,7 +49,7 @@
                         </a>
 
                         <a href="{{ path('task_delete', { id: task.id }) }}"
-                           class="btn btn-sm btn-outline-danger"
+                           class="btn btn-danger"
                            onclick="return confirm('Supprimer cette tâche ?')">
                            Supprimer
                         </a>
