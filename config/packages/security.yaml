@@ -12,15 +12,20 @@ security:
         main:
             lazy: true
             provider: app_user_provider
-            form_login:
-                login_path: app_login
-                check_path: app_login
+
+            # 👉 On active ton authenticator personnalisé
+            custom_authenticator:
+                - App\Security\LoginFormAuthenticator
+
             logout:
                 path: app_logout
                 target: app_login
+
             remember_me: ~
+
 
     access_control:
         - { path: ^/login, roles: PUBLIC_ACCESS }
         - { path: ^/register, roles: PUBLIC_ACCESS }
         - { path: ^/tasks, roles: ROLE_USER }
+        - { path: ^/, roles: PUBLIC_ACCESS }
