@@ -17,11 +17,16 @@ class TaskType extends AbstractType
     {
         $builder
             ->add('title', TextType::class, [
-                'label' => 'Titre'
+                'label' => 'Titre : '
             ])
             ->add('description', TextareaType::class, [
                 'required' => false,
-                'label' => 'Description'
+                'label' => 'Description',
+                'attr' => [
+                'rows' => 8,
+                'class' => 'form-control form-control-lg', 
+                'placeholder' => 'Décris la tâche ici…'
+                ]
             ])
             ->add('deadline', DateType::class, [
                 'widget' => 'single_text',

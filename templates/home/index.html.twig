@@ -1,18 +1,17 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Accueil - TaskFlow{% endblock %}
-
 {% block body %}
-<div class="container mt-5">
-    <h1 class="text-primary text-center">Bienvenue sur TaskFlow</h1>
-    <p class="lead text-center mt-3">
-        Gérez vos tâches facilement grâce à votre nouvelle application TaskFlow !
-    </p>
+<div class="text-center mt-5">
+    <h1 class="display-4 text-primary">Bienvenue sur TaskFlow</h1>
+    <p class="lead">Votre gestionnaire de tâches simple, rapide et efficace.</p>
 
-    <div class="text-center mt-4">
-        <a href="{{ path('task_index') }}" class="btn btn-primary btn-lg mt-3">
-        📋 Voir la liste des tâches
+    <a href="{{ path('task_index') }}" class="btn btn-outline-primary btn-lg mt-3">
+        📋 Voir mes tâches
     </a>
-    </div>
+    <br>
+    <a href="{{ path('home_presentation') }}" class="btn btn-outline-primary btn-lg mt-3">
+        ℹ️ Présentation du projet TaskFlow
+    </a>
 </div>
 {% endblock %}
+

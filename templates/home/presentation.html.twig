@@ -1,0 +1,40 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<h1 class="text-primary text-center m-4">ℹ️ Présentation du projet TaskFlow</h1>
+
+<div class="container mb-5">
+<div class="card p-4 shadow-sm">
+
+    <h3 class="text-secondary">🎯 Objectif du projet</h3>
+    <p>
+        TaskFlow est une petite application destinée à gérer des tâches personnelles.
+        L'objectif est de démontrer un cycle complet de développement Symfony :
+        entités, formulaire, API interne, authentification, design et tests.
+    </p>
+
+    <hr>
+
+    <h3 class="text-secondary">🧩 Technologies utilisées</h3>
+    <ul>
+        <li>Symfony 7.3 (full-stack)</li>
+        <li>Doctrine ORM</li>
+        <li>Bootstrap / Bootswatch (design)</li>
+        <li>JavaScript (fetch + API interne)</li>
+        <li>MySQL</li>
+    </ul>
+
+    <hr>
+
+    <h3 class="text-secondary">✅ Fonctionnalités</h3>
+    <ul>
+        <li>Créer, modifier, supprimer une tâche</li>
+        <li>Marquer une tâche comme terminée</li>
+        <li>Affichage dynamique via une API JSON</li>
+        <li>Système d’authentification simple</li>
+        <li>Design responsive</li>
+    </ul>
+
+</div>
+</div>
+{% endblock %}

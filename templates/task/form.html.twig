@@ -3,21 +3,75 @@
 {% block title %}{{ title }}{% endblock %}
 
 {% block body %}
-<div class="container mt-4">
+<div class="container mt-5 mb-5">
 
-    <h1 class="mb-4">{{ title }}</h1>
+    <h1 class="text-center mb-4">{{ title }}</h1>
 
-    <div class="card p-4 shadow-sm">
+    <div class="card p-4 shadow-lg">
+
         {{ form_start(form) }}
-            {{ form_row(form.title) }}
-            {{ form_row(form.description) }}
-            {{ form_row(form.deadline) }}
-            {{ form_row(form.isDone) }}
 
-            <button class="btn btn-primary mt-3">Enregistrer</button>
+        <!-- Titre -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">
+                ✏️ {{ form.title.vars.label }}
+            </label>
+            <div class="mt-2">
+                {{ form_widget(form.title, {'attr': {'class': 'form-control'}}) }}
+            </div>
+        </div>
+
+        <!-- Description -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">
+                📝 {{ form.description.vars.label }}
+            </label>
+            <div class="mt-2">
+                {{ form_widget(form.description, {
+                    'attr': {
+                        'class': 'form-control',
+                        'rows': 5,
+                        'style': 'resize: vertical;'
+                    }
+                }) }}
+            </div>
+        </div>
+
+        <!-- Date limite -->
+        <div class="mb-4">
+            <label class="form-label fw-bold">
+                📅 {{ form.deadline.vars.label }}
+            </label>
+            <div class="mt-2">
+                {{ form_widget(form.deadline, {
+                    'attr': {
+                        'class': 'form-control'
+                    }
+                }) }}
+            </div>
+        </div>
+
+        <!-- État -->
+        <div class="mb-4">
+                ✔️ {{ form.isDone.vars.label }}
+                {{ form_widget(form.isDone, {
+                    'attr': {
+                        'class': 'form-check-input'
+                    }
+                }) }}
+        </div>
+
+        <!-- Bouton -->
+        <button class="btn btn-outline-primary w-100 mt-4 fw-bold">
+            💾 Enregistrer
+        </button>
+
         {{ form_end(form) }}
+
     </div>
 
-    <a href="{{ path('task_index') }}" class="btn btn-secondary mt-3">⬅ Retour</a>
+    <a href="{{ path('task_index') }}" class="btn btn-secondary mt-3">
+        ⬅ Retour
+    </a>
 </div>
 {% endblock %}

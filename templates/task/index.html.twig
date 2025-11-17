@@ -44,8 +44,13 @@
 
                     <td class="d-flex gap-2">
                         <a href="{{ path('task_edit', { id: task.id }) }}"
-                           class="btn btn-sm btn-outline-primary">
+                           class="btn btn-sm btn-outline-info">
                            Modifier
+                        </a>
+
+                        <a href="{{ path('task_toggle', { id: task.id }) }}"
+                           class="btn btn-sm btn-outline-warning">
+                           Changer état
                         </a>
 
                         <a href="{{ path('task_delete', { id: task.id }) }}"
@@ -53,11 +58,7 @@
                            onclick="return confirm('Supprimer cette tâche ?')">
                            Supprimer
                         </a>
-
-                        <a href="{{ path('task_toggle', { id: task.id }) }}"
-                           class="btn btn-sm btn-outline-secondary">
-                           Changer état
-                        </a>
+                        
                     </td>
                 </tr>
             {% endfor %}
