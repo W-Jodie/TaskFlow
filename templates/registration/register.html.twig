@@ -12,6 +12,13 @@
 
         {{ form_start(registrationForm) }}
 
+        <!-- Pseudo -->
+        <div class="mb-3 text-start">
+            <label class="form-label fw-bold">Pseudo</label>
+            {{ form_widget(registrationForm.pseudo, { 'attr': {'class': 'form-control'} }) }}
+            {{ form_errors(registrationForm.pseudo) }}
+        </div>
+        
         <!-- Email -->
         <div class="mb-3 text-start">
             <label class="form-label fw-bold">Email</label>

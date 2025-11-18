@@ -51,15 +51,16 @@
             </div>
         </div>
 
-        <!-- État -->
-        <div class="mb-4">
-                ✔️ {{ form.isDone.vars.label }}
-                {{ form_widget(form.isDone, {
-                    'attr': {
-                        'class': 'form-check-input'
-                    }
-                }) }}
-        </div>
+        <!-- État (AFFICHÉ UNIQUEMENT EN MODIFICATION) -->
+        {% if title == 'Modifier une tâche' %}
+
+            {% if form.vars.data.finishedAt %}
+                <div class="alert alert-info mt-3">
+                    🗓️ Tâche terminée le :
+                    <strong>{{ form.vars.data.finishedAt|date('d/m/Y H:i') }}</strong>
+                </div>
+            {% endif %}
+        {% endif %}
 
         <!-- Bouton -->
         <button class="btn btn-outline-primary w-100 mt-4 fw-bold">

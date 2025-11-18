@@ -32,10 +32,6 @@ class TaskType extends AbstractType
                 'widget' => 'single_text',
                 'required' => false,
                 'label' => 'Date limite'
-            ])
-            ->add('isDone', CheckboxType::class, [
-                'label' => 'Tâche terminée ?',
-                'required' => false
             ]);
     }
 

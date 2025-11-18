@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\TaskRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use App\Entity\User;
 
 #[ORM\Entity(repositoryClass: TaskRepository::class)]
 class Task
@@ -24,8 +25,28 @@ class Task
     private ?\DateTime $deadline = null;
 
     #[ORM\Column]
-    private ?bool $isDone = null;
+    private ?bool $isDone = false;
 
+    // -----------------------------------------------------
+    // 🔥 RELATION AVEC L’UTILISATEUR (ManyToOne obligatoire)
+    // -----------------------------------------------------
+    #[ORM\ManyToOne(inversedBy: 'tasks')]
+    #[ORM\JoinColumn(nullable: true)]
+    private ?User $user = null;
+    // -----------------------------------------------------
+    #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $finishedAt = null;
+
+    public function getFinishedAt(): ?\DateTimeInterface
+    {
+        return $this->finishedAt;
+    }
+
+    public function setFinishedAt(?\DateTimeInterface $finishedAt): static
+    {
+        $this->finishedAt = $finishedAt;
+        return $this;
+    }
     public function getId(): ?int
     {
         return $this->id;
@@ -39,7 +60,6 @@ class Task
     public function setTitle(string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -51,7 +71,6 @@ class Task
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -63,7 +82,6 @@ class Task
     public function setDeadline(?\DateTime $deadline): static
     {
         $this->deadline = $deadline;
-
         return $this;
     }
 
@@ -75,7 +93,20 @@ class Task
     public function setIsDone(bool $isDone): static
     {
         $this->isDone = $isDone;
+        return $this;
+    }
 
+    // -----------------------------------------------------
+    // 🔥 GETTER & SETTER pour USER
+    // -----------------------------------------------------
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): static
+    {
+        $this->user = $user;
         return $this;
     }
 }

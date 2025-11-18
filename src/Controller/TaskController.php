@@ -17,23 +17,28 @@ class TaskController extends AbstractController
     public function index(EntityManagerInterface $em): Response
     {
         // Tri par la bonne propriété : deadline
-        $tasks = $em->getRepository(Task::class)->findBy([], ['deadline' => 'ASC']);
-
+        $tasks = $em->getRepository(Task::class)->findBy(
+            ['user' => $this->getUser()],
+            ['deadline' => 'ASC']
+    );
         return $this->render('task/index.html.twig', [
             'tasks' => $tasks
         ]);
     }
 
-    #[Route('/create', name: 'task_create')]
+        #[Route('/create', name: 'task_create')]
     public function create(Request $request, EntityManagerInterface $em): Response
     {
         $task = new Task();
-        $task->setIsDone(false); // valeur par défaut
 
         $form = $this->createForm(TaskType::class, $task);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // 🔥 Associe la tâche à l'utilisateur connecté
+            $task->setUser($this->getUser());
+
             $em->persist($task);
             $em->flush();
 
@@ -79,7 +84,15 @@ class TaskController extends AbstractController
     #[Route('/toggle/{id}', name: 'task_toggle')]
     public function toggle(Task $task, EntityManagerInterface $em): Response
     {
-        $task->setIsDone(!$task->isDone());
+        $isDone = !$task->isDone();
+        $task->setIsDone($isDone);
+
+        if ($isDone) {
+            $task->setFinishedAt(new \DateTime());
+        } else {
+            $task->setFinishedAt(null);
+        }
+
         $em->flush();
 
         return $this->redirectToRoute('task_index');
