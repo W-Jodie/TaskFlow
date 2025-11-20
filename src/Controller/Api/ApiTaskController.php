@@ -14,7 +14,12 @@ class ApiTaskController extends AbstractController
     #[Route('/', name: 'api_tasks_list', methods: ['GET'])]
     public function list(EntityManagerInterface $em): JsonResponse
     {
-        $tasks = $em->getRepository(Task::class)->findAll();
+        $user = $this->getUser();
+        if (!$user) {
+            return new JsonResponse(['error' => 'pzs duser connecte'], 401);
+        }
+
+        $tasks = $em->getRepository(Task::class)->findBy(['user' => $user], ['deadline' => 'ASC']);
 
         $data = [];
 

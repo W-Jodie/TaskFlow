@@ -16,13 +16,12 @@ class TaskController extends AbstractController
     #[Route('/', name: 'task_index')]
     public function index(EntityManagerInterface $em): Response
     {
-        // Tri par la bonne propriété : deadline
-        $tasks = $em->getRepository(Task::class)->findBy(
-            ['user' => $this->getUser()],
-            ['deadline' => 'ASC']
-    );
+        $user = $this->getUser();
+        if (!$user) {   
+            return $this->redirectToRoute('app_login');
+        }
+        
         return $this->render('task/index.html.twig', [
-            'tasks' => $tasks
         ]);
     }
 

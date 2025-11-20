@@ -4,12 +4,12 @@
 <div class="container mt-5">
 
     <h1 class="mb-4 text-primary text-center mb-4">📋 Liste des tâches</h1>
-
-    <a href="{{ path('task_create') }}" class="btn btn-outline-success mb-3">
+<button class="btn btn-outline-primary mb-3" id="refreshButton" >
+        <span class="" id="span">🔄 </span>Actualiser la liste</button>
+    <a href="{{ path('task_create') }}" class="btn btn-outline-success mb-3 ">
         + Ajouter une tâche
     </a>
 
-    {# Messages flash #}
     {% for message in app.flashes('success') %}
         <div class="alert alert-success">{{ message }}</div>
     {% endfor %}
@@ -24,46 +24,88 @@
             </tr>
         </thead>
 
-        <tbody>
-            {% for task in tasks %}
-                <tr>
-                    <td>{{ task.title }}</td>
-
-                    {# ✔ Correction : deadline au lieu de dateLimite #}
-                    <td>
-                        {{ task.deadline ? task.deadline|date('d/m/Y') : '-' }}
-                    </td>
-
-                    <td>
-                        {% if task.isDone %}
-                            <span class="badge bg-success">Terminée</span>
-                        {% else %}
-                            <span class="badge bg-warning">En cours</span>
-                        {% endif %}
-                    </td>
-
-                    <td class="d-flex gap-2">
-                        <a href="{{ path('task_edit', { id: task.id }) }}"
-                           class="btn btn-sm btn-outline-info">
-                           Modifier
-                        </a>
-
-                        <a href="{{ path('task_toggle', { id: task.id }) }}"
-                           class="btn btn-sm btn-outline-warning">
-                           Changer état
-                        </a>
-
-                        <a href="{{ path('task_delete', { id: task.id }) }}"
-                           class="btn btn-danger"
-                           onclick="return confirm('Supprimer cette tâche ?')">
-                           Supprimer
-                        </a>
-                        
-                    </td>
-                </tr>
-            {% endfor %}
+        {# ICI : un tbody vide, rempli par l'API #}
+        <tbody id="content"
+            data-edit-url="{{ path('task_edit', { id: 0 }) }}"
+            data-toggle-url="{{ path('task_toggle', { id: 0 }) }}"
+            data-delete-url="{{ path('task_delete', { id: 0 }) }}">
         </tbody>
     </table>
 
 </div>
+
+<script>
+    async function getTask() {
+        const url = 'http://127.0.0.1:8000/api/tasks';
+
+        try {
+            const response = await fetch(url);
+            if (!response.ok) throw new Error("HTTP-Error: " + response.status);
+
+            const json = await response.json();
+            console.log(json);
+            const content = document.getElementById('content');
+
+            const editUrlBase = content.dataset.editUrl.replace('/0', '');
+            const toggleUrlBase = content.dataset.toggleUrl.replace('/0', '');
+            const deleteUrlBase = content.dataset.deleteUrl.replace('/0', '');
+
+            content.innerHTML = "";
+
+            json.forEach(element => {
+                content.innerHTML += `
+                    <tr>
+                        <td>${element.title}</td>
+
+                        <td>${element.deadline ? element.deadline : '-'}</td>
+
+                        <td>
+                            ${element.isDone 
+                                ? '<span class="badge bg-success">Terminée</span>'
+                                : '<span class="badge bg-warning">En cours</span>'}
+                        </td>
+
+                        <td class="d-flex gap-2">
+                            <a href="${editUrlBase}/${element.id}" 
+                               class="btn btn-sm btn-outline-info">Modifier</a>
+
+                            <a href="${toggleUrlBase}/${element.id}" 
+                               class="btn btn-sm btn-outline-warning">Changer état</a>
+
+                            <a href="${deleteUrlBase}/${element.id}" 
+                               class="btn btn-danger"
+                               onclick="return confirm('Supprimer cette tâche ?')">
+                               Supprimer
+                            </a>
+                        </td>
+                    </tr>
+                `;
+            });
+
+        } catch (error) {
+            console.error(error);
+            alert(error);
+        }
+        
+    }
+    const button = document.getElementById('refreshButton');
+    const span = document.getElementById('span');
+
+    function reload(){
+        setInterval(function (){
+            
+             button.classList.add('btn-outline-primary');
+        button.classList.remove('btn-info');
+            span.classList.remove('spinner-border');
+            getTask()
+        }
+        , 3000);
+        button.classList.remove('btn-outline-primary');
+        button.classList.add('btn-info');
+        span.classList.add('spinner-border');
+
+    }
+    button.addEventListener('click', reload);
+</script>
+
 {% endblock %}
